@@ -1,4 +1,4 @@
-Nette PHP Generator  
+Nette PHP WebGenerator  
 ===================
 
 
@@ -10,7 +10,7 @@ composer require linphp/webgenerator
 ```
 
 
-generator   --thinkphp v6.0.3 插件
+WebGenerator   --thinkphp v6.0.3 插件
 -----
 
 ```php 
