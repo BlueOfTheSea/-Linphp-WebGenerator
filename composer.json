@@ -7,7 +7,8 @@
     "php": ">=7.1.0",
     "nette/php-generator": "^3.4",
     "topthink/think-annotation": "^1.1",
-    "topthink/think-multi-app": "^1.0"
+    "topthink/think-multi-app": "^1.0",
+    "topthink/think-view": "^1.0"
   },
   "authors": [
     {
