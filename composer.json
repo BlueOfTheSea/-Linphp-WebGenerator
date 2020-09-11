@@ -1,0 +1,41 @@
+{
+  "name": "linphp/generator",
+  "description": "基于thinkphp6写的PHP逻辑层,模型层,控制器层自动生成文件think脚本",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": ">=7.1.0",
+    "nette/php-generator": "^3.4",
+    "topthink/think-annotation": "^1.1",
+    "topthink/think-multi-app": "^1.0"
+  },
+  "authors": [
+    {
+      "name": "houlinlin",
+      "email": "ymdhis@163.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Linphp\\Generator\\": "src"
+    }
+  },
+  "minimum-stability": "dev",
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  },
+  "extra": {
+    "think": {
+      "services": [
+        "Linphp\\Generator\\Service"
+      ],
+      "config": {}
+    }
+  },
+  "scripts": {
+    "fix-style": "phpcbf app"
+  }
+}
