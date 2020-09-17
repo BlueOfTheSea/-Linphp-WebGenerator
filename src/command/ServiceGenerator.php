@@ -1,6 +1,6 @@
 <?php
 
-namespace Linphp\Generator\command;
+namespace Linphp\WebGenerator\command;
 
 use Nette\PhpGenerator\PhpFile;
 use think\console\input\Option;
@@ -41,7 +41,7 @@ class ServiceGenerator
         $namespace->addUse('app\\'.$modular.'\model\\' . ucfirst($model_class));
         $namespace->addUse('\think\facade\Request');
         $namespace->addUse('\think\facade\View');
-        $namespace->addUse('\Linphp\Generator\notice\\Msg');
+        $namespace->addUse('\Linphp\WebGenerator\notice\\Msg');
         $class = $namespace->addClass(ucfirst($tableName_public_name));
         $class->addExtend('app\\'.$modular.'\\Service\\BaseService');
         #class内部注解

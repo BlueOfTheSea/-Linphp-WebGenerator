@@ -1,8 +1,8 @@
 <?php
 
-namespace Linphp\Generator;
+namespace Linphp\WebGenerator;
 
-use Linphp\Generator\command\StartGenerator;
+use Linphp\WebGenerator\command\StartGenerator;
 
 /**
  * Class Service

@@ -1,6 +1,6 @@
 <?php
 
-namespace Linphp\Generator\notice;
+namespace Linphp\WebGenerator\notice;
 
 /**
  * Class MSG

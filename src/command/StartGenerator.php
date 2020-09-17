@@ -1,8 +1,7 @@
 <?php
 
-namespace Linphp\Generator\command;
+namespace Linphp\WebGenerator\command;
 
-use Linphp\Generator\Msgee;
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;
