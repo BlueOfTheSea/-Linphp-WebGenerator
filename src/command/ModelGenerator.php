@@ -2,11 +2,13 @@
 
 namespace Linphp\Generator\command;
 
+use app\admin\model\MenuModel;
 use Nette\PhpGenerator\PhpFile;
 use think\console\input\Option;
+use think\Exception;
+use think\exception\ErrorException;
 use think\facade\Db;
 use think\Model;
-
 /**
  * Class ModelGenerator
  * @package Linphp\ServiceController\command
@@ -28,11 +30,12 @@ class ModelGenerator
         $class_name         = $controller;
         $cc_format          = $prefix . lcfirst($this->cc_format($class_name));
         $cc_format_is_table = false;
-
+        $Comment='未命名';
         foreach ($annotation as $v) {
 
             if ($cc_format == $v['Name']) {
                 $file->addComment($v['Comment']);
+                $Comment=$v['Comment'];
                 $cc_format_is_table = true;
             }
         }
@@ -45,7 +48,16 @@ class ModelGenerator
 
         #表不存在就集成普通的model
         if ($cc_format_is_table) {
-
+            try {
+                $MenuModel = new MenuModel();
+                $data['menu_name']=strtolower($Comment.'@'.$modular.'/'.$class_name.'/index');
+                $data['uid']=63;
+                $MenuModel->insert($data,'IGNORE');
+            } catch (ValidateException $e) {
+                // 这是进行验证异常捕获
+            } catch (\Exception $e) {
+                // 这是进行异常捕获
+            }
             $namespace->addUse('app\model\entity\\' . ucfirst($class_name) . 'Entity');
             $class->addExtend('app\model\entity\\' . ucfirst($class_name) . 'Entity');
             (new HtmlGenerator())->command($modular,ucfirst($class_name));

@@ -17,7 +17,7 @@ class StartGenerator extends Command
      */
     protected function configure()
     {
-        $this->setName('gen')
+        $this->setName('webGen')
             ->addArgument('name', Argument::OPTIONAL)
             ->setDescription('Auto generate file command');
     }
