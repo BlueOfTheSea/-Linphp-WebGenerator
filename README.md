@@ -1,4 +1,4 @@
-Lin PHP Generator  
+Lin PHP WebGenerator  
 ===================
 
 
