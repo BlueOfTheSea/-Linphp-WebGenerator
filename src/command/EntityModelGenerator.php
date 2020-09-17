@@ -1,6 +1,6 @@
 <?php
 
-namespace Linphp\Generator\command;
+namespace Linphp\WebGenerator\command;
 
 use Nette\PhpGenerator\PhpFile;
 use think\console\input\Option;

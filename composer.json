@@ -31,7 +31,7 @@
   "extra": {
     "think": {
       "services": [
-        "Linphp\\Generator\\Service"
+        "Linphp\\WebGenerator\\Service"
       ],
       "config": {}
     }

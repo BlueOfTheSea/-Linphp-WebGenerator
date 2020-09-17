@@ -1,6 +1,6 @@
 <?php
 
-namespace Linphp\Generator\command;
+namespace Linphp\WebGenerator\command;
 
 use app\admin\model\MenuModel;
 use Nette\PhpGenerator\PhpFile;
