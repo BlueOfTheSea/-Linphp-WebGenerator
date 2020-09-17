@@ -18,7 +18,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Linphp\\Generator\\": "src"
+      "Linphp\\WebGenerator\\": "src"
     }
   },
   "minimum-stability": "dev",
