@@ -35,7 +35,10 @@ class ModelGenerator
 
             if ($cc_format == $v['Name']) {
                 $file->addComment($v['Comment']);
-                $Comment=$v['Comment'];
+                if($v['Comment'])
+                {
+                    $Comment=$v['Comment'];
+                }
                 $cc_format_is_table = true;
             }
         }
