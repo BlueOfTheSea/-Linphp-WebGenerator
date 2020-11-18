@@ -73,7 +73,7 @@ class ServiceGenerator
             ->addComment('@author Administrator')
             ->addComment('@return mixed')
             ->setPublic()
-            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();if(Request::isPost()){$data=$' . $model_class . '->where(\'id\',Request::param(\'id\'))->save(Request::except([\'id\']));if($data){return Msg::JSON(200,\'\',\'SUCCESS\');}return Msg::JSON(201,\'\',\'ERROR\');}else{$info=$'.$model_class.'->where(\'id\', Request::param(\'id\'))->find();View::assign(\'info\',$info);return View::fetch();}');
+            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();if(Request::isPost()){$data=$' . $model_class . '::update(array_filter(Request::param()));if($data){return Msg::JSON(200,\'\',\'SUCCESS\');}return Msg::JSON(201,\'\',\'ERROR\');}else{$info=$'.$model_class.'->where(\'id\', Request::param(\'id\'))->find();View::assign(\'info\',$info);return View::fetch();}');
 
         $class->addMethod('delete')
             ->addComment('删除指定资源')
