@@ -1,4 +1,4 @@
-Nette PHP Generator  
+Linphp PHP Generator  
 ===================
 
 
@@ -9,7 +9,11 @@ Installation
 composer require linphp/webgenerator
 ```
 
-
+提示：组件是根据 linphp/linrapid骨架编写,使用此组件直接可以根据下边composer安装
+-----
+```
+composer create-project linphp/linrapid
+```
 webgenerator   --thinkphp v6.0.3 插件
 -----
 
