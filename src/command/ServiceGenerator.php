@@ -87,7 +87,7 @@ class ServiceGenerator
             ->addComment('@author Administrator')
             ->addComment('@return mixed')
             ->setPublic()
-            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '::destroy(Request::param(\'id\'));if($data){return Msg::JSON(200,\'\',\'SUCCESS\');}return Msg::JSON(201,\'ERROR\');');
+            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '::destroy(Request::param(\'id\'));if($data){return Msg::JSON(200,\'SUCCESS\');}return Msg::JSON(201,\'ERROR\');');
 
 
         $dir = app_path() . $modular . '\\service';
