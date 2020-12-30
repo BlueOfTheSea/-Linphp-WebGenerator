@@ -36,21 +36,28 @@ class ServiceGenerator
 
         $tableName_public_name = $controller . 'Service';
         $file->setStrictTypes(); // adds declare(strict_types=1)
-        $namespace = $file->addNamespace('app\\' . $modular . '\service');
+        $namespace   = $file->addNamespace('app\\' . $modular . '\service');
         $model_class = $controller . 'Model';
-        $namespace->addUse('app\\'.$modular.'\model\\' . ucfirst($model_class));
+        $namespace->addUse('app\\' . $modular . '\model\\' . ucfirst($model_class));
         $namespace->addUse('\think\facade\Request');
         $namespace->addUse('\think\facade\View');
         $namespace->addUse('\Linphp\WebGenerator\notice\\Msg');
         $class = $namespace->addClass(ucfirst($tableName_public_name));
-        $class->addExtend('app\\'.$modular.'\\Service\\BaseService');
+        $class->addExtend('app\\' . $modular . '\\Service\\BaseService');
         #class内部注解
         $class->addMethod('index')
             ->addComment('显示资源列表')
             ->addComment('@author Administrator')
             ->addComment('@return mixed')
             ->setPublic()
-            ->setBody('if(Request::isPost()) {$where=array_filter(Request::except([\'page\',\'limit\']));$limit=Request::param(\'limit\');$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '->where($where)->order("id desc")->paginate($limit)->toArray();return Msg::JSON(0, \'SUCCESS\', $data[\'data\'],$data[\'total\']);}else{ return View::fetch();}');
+            ->setBody('
+            if(Request::isPost()) {
+            $where=array_filter(Request::except([\'page\',\'limit\']));
+            $limit=Request::param(\'limit\');
+            $' . $model_class . '=new ' . ucfirst($model_class) . '();
+            $data=$' . $model_class . '->where($where)->order("id desc")->paginate($limit)->toArray();
+            return Msg::JSON(0, \'SUCCESS\', $data[\'data\'],$data[\'total\']);
+            }else{ return View::fetch();}');
 
         $class->addMethod('save')
             ->addComment('保存新建的资源.')
@@ -65,7 +72,7 @@ class ServiceGenerator
             ->addComment('@author Administrator')
             ->addComment('@return mixed')
             ->setPublic()
-            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '->where(\'id\',Request::param(\'id\'))->find();return Msg::JSON(200,$data,\'SUCCESS\');');
+            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '->where(\'id\',Request::param(\'id\'))->find();return Msg::JSON(200,\'SUCCESS\',$data);');
 
 
         $class->addMethod('update')
@@ -73,14 +80,14 @@ class ServiceGenerator
             ->addComment('@author Administrator')
             ->addComment('@return mixed')
             ->setPublic()
-            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();if(Request::isPost()){$data=$' . $model_class . '::update(array_filter(Request::param()));if($data){return Msg::JSON(200,\'\',\'SUCCESS\');}return Msg::JSON(201,\'\',\'ERROR\');}else{$info=$'.$model_class.'->where(\'id\', Request::param(\'id\'))->find();View::assign(\'info\',$info);return View::fetch();}');
+            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();if(Request::isPost()){$data=$' . $model_class . '::update(array_filter(Request::param()));if($data){return Msg::JSON(200,\'SUCCESS\');}return Msg::JSON(201,\'ERROR\');}else{$info=$' . $model_class . '->where(\'id\', Request::param(\'id\'))->find();View::assign(\'info\',$info);return View::fetch();}');
 
         $class->addMethod('delete')
             ->addComment('删除指定资源')
             ->addComment('@author Administrator')
             ->addComment('@return mixed')
             ->setPublic()
-            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '::destroy(Request::param(\'id\'));if($data){return Msg::JSON(200,\'\',\'SUCCESS\');}return Msg::JSON(201,\'\',\'ERROR\');');
+            ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '::destroy(Request::param(\'id\'));if($data){return Msg::JSON(200,\'\',\'SUCCESS\');}return Msg::JSON(201,\'ERROR\');');
 
 
         $dir = app_path() . $modular . '\\service';
@@ -95,7 +102,8 @@ class ServiceGenerator
         }
         $this->baseservice($modular);
     }
-    public function baseservice($modular='')
+
+    public function baseservice($modular = '')
     {
         $file = new PhpFile;
         $file->setStrictTypes(); // adds declare(strict_types=1)
@@ -104,8 +112,8 @@ class ServiceGenerator
         $namespace->addUse('app\BaseController');
         $class = $namespace->addClass('BaseService');
         $class->addExtend(BaseController::class);
-        $dir = app_path() . $modular . '\\service';
-        $path = $dir . '\\' .   'BaseService.php';
+        $dir  = app_path() . $modular . '\\service';
+        $path = $dir . '\\' . 'BaseService.php';
         if (!file_exists($path)) {
             @file_put_contents($path, $file);
         }
