@@ -109,7 +109,7 @@ class HtmlGenerator
 
         $class_name = $this->controller;
         $cc_format  = $mysql['prefix'] . lcfirst((new ModelGenerator())->cc_format($class_name));
-        $column     = "select column_name,column_comment from information_schema.columns where   table_name = '" . $cc_format . "' ;";
+        $column     = "select column_name,column_comment from information_schema.columns where table_name = '" . $cc_format . "'AND table_schema= '" . $mysql['database'] . "'";
 
         $table       = Db::query($column);
         $this->table = $table;
