@@ -54,7 +54,7 @@ class HtmlGenerator
             }else{
                 $cols .= '<div class="layui-form-item">
                             <label class="layui-form-label">'.$v['column_comment'].'</label>
-                                <div class="layui-input-inline">
+                                <div class="layui-input-block">
                                     <input type="text" value="{$info.'.$v['column_name'].'}" name="'.$v['column_name'].'" lay-verify="required" placeholder="请输入'.$v['column_comment'].'" autocomplete="off" class="layui-input">
                                 </div>
                           </div>'."\n";
@@ -77,7 +77,7 @@ class HtmlGenerator
             if($v['column_name']!='id') {
                 $cols .= '<div class="layui-form-item">
                             <label class="layui-form-label">' . $v['column_comment'] . '</label>
-                                <div class="layui-input-inline">
+                                <div class="layui-input-block">
                                     <input type="text" value="" name="' . $v['column_name'] . '" lay-verify="required" placeholder="请输入' . $v['column_comment'] . '" autocomplete="off" class="layui-input">
                                 </div>
                           </div>' . "\n";

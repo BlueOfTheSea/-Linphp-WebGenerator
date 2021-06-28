@@ -130,7 +130,7 @@
                     ,title: '修改'
                     ,content: 'update/id/'+data.id
                     ,maxmin: true
-                    ,area: ['500px', '450px']
+                    ,area: ['1000px', '800px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var iframeWindow = window['layui-layer-iframe'+ index]
@@ -188,7 +188,7 @@
                     ,title: '添加'
                     ,content: 'save'
                     ,maxmin: true
-                    ,area: ['500px', '450px']
+                    ,area: ['1000px', '800px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var iframeWindow = window['layui-layer-iframe'+ index]
