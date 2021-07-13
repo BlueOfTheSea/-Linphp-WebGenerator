@@ -53,7 +53,7 @@ class ModelGenerator
         if ($cc_format_is_table) {
             try {
                 $MenuModel = new MenuModel();
-                $data['menu_name']=strtolower($Comment.'@'.$modular.'/'.$class_name.'/index');
+                $data['menu_name']=$Comment.'@'.$modular.'/'.$class_name.'/index';
                 $data['uid']=63;
                 $MenuModel->insert($data,'IGNORE');
             } catch (ValidateException $e) {
