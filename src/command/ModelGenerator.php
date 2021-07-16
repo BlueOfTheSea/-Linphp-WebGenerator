@@ -71,11 +71,11 @@ class ModelGenerator
         }
 
 
-        $dir = app_path() . $modular . '\\model';
+        $dir = app_path() . $modular . '/model';
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
-        $path = $dir . '\\' . ucfirst($controller) . '.php';
+        $path = $dir . '/' . ucfirst($controller) . '.php';
         if (!file_exists($path)) {
             echo '生成模块Model层   ' . $path . "\n";
             @file_put_contents($path, $file);

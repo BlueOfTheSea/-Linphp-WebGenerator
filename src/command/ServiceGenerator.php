@@ -90,12 +90,12 @@ class ServiceGenerator
             ->setBody('$' . $model_class . '=new ' . ucfirst($model_class) . '();$data=$' . $model_class . '::destroy(Request::param(\'id\'));if($data){return Msg::JSON(200,\'SUCCESS\');}return Msg::JSON(201,\'ERROR\');');
 
 
-        $dir = app_path() . $modular . '\\service';
+        $dir = app_path() . $modular . '/service';
 
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
-        $path = $dir . '\\' . ucfirst($tableName_public_name) . '.php';
+        $path = $dir . '/' . ucfirst($tableName_public_name) . '.php';
         if (!file_exists($path)) {
             echo '生成模块Service层   ' . $path . "\n";
             @file_put_contents($path, $file);
@@ -112,8 +112,8 @@ class ServiceGenerator
         $namespace->addUse('app\BaseController');
         $class = $namespace->addClass('BaseService');
         $class->addExtend(BaseController::class);
-        $dir  = app_path() . $modular . '\\service';
-        $path = $dir . '\\' . 'BaseService.php';
+        $dir  = app_path() . $modular . '/service';
+        $path = $dir . '/' . 'BaseService.php';
         if (!file_exists($path)) {
             @file_put_contents($path, $file);
         }
