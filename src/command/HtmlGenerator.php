@@ -32,7 +32,7 @@ class HtmlGenerator
             $cols .= "{field: '" . $v['column_name'] . "',align: 'center', title: '" . $v['column_comment'] . "'},\n";
         }
         $html = preg_replace("/@table/", $cols, $file);
-        $dir  = app_path() . $this->modular . '/view/'.ucfirst($this->controller).'/index.html';
+        $dir  = app_path() . $this->modular . '/view/'.$this->cc_format($this->controller).'/index.html';
         $this->fileSave($dir, $html);
     }
 
@@ -63,7 +63,7 @@ class HtmlGenerator
 
 
         $html = preg_replace("/@form/", $cols, $file);
-        $dir  = app_path() . $this->modular . '/view/'.ucfirst($this->controller).'/update.html';
+        $dir  = app_path() . $this->modular . '/view/'.$this->cc_format($this->controller).'/update.html';
         $this->fileSave($dir, $html);
     }
     public function save()
@@ -86,9 +86,28 @@ class HtmlGenerator
 
 
         $html = preg_replace("/@form/", $cols, $file);
-        $dir  = app_path() . $this->modular . '/view/'.ucfirst($this->controller).'/save.html';
+        $dir  = app_path() . $this->modular . '/view/'.$this->cc_format($this->controller).'/save.html';
         $this->fileSave($dir, $html);
     }
+    
+    public function cc_format($name)
+    {
+        $temp_array = array();
+        for ($i = 0; $i < strlen($name); $i++) {
+            $ascii_code = ord($name[$i]);
+            if ($ascii_code >= 65 && $ascii_code <= 90) {
+                if ($i == 0) {
+                    $temp_array[] = chr($ascii_code + 32);
+                } else {
+                    $temp_array[] = '_' . chr($ascii_code + 32);
+                }
+            } else {
+                $temp_array[] = $name[$i];
+            }
+        }
+        return implode('', $temp_array);
+    }
+    
     /**
      * 启动
      * @author Administrator
