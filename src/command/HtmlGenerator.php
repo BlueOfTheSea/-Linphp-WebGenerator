@@ -118,7 +118,7 @@ class HtmlGenerator
         $this->controller = $controller;
 
         $this->modular = $modular;
-        $dir = app_path() . $modular . '/view/'.ucfirst($controller);
+        $dir = app_path() . $modular . '/view/'.$this->cc_format($controller);
         if (!is_dir($dir)) {
             mkdir($dir, 0777, true);
         }
