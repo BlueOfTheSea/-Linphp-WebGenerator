@@ -48,7 +48,13 @@ webgenerator   --thinkphp v6.0.3 插件
         
     a_user以及a_user_sex不会生成controller,model,service文件但是model\entity实体模型会自动生成只需要new这里边的类即可
 
-
+扩展功能:
+   如表字段注解命名 图片或富文本 直接生成对应的html
+   例如：
+       id  int   ID
+       img  varchar  图片
+       text longtext 富文本
+       uid  int  uid
 ```
 
 
