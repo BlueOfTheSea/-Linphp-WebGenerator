@@ -24,15 +24,21 @@ class HtmlGenerator
     public function index()
     {
         $HtmlFile = $this->htmlDir . "index.tpl";
-        $file     = @file_get_contents($HtmlFile);
-
-
+        $file = @file_get_contents($HtmlFile);
         $cols = '';
         foreach ($this->table as $v) {
-            $cols .= "{field: '" . $v['column_name'] . "',align: 'center', title: '" . $v['column_comment'] . "'},\n";
+
+            if (strstr($v['column_comment'], '图片')) {
+                $cols .= "{field: '" . $v['column_name'] . "',align: 'center', title: '" . $v['column_comment'] . "',templet:function (val){return '<img src='+val.img+'>'}},\n";
+            } else if (strstr($v['column_comment'], '富文本')) {
+
+            } else {
+                $cols .= "{field: '" . $v['column_name'] . "',align: 'center', title: '" . $v['column_comment'] . "'},\n";
+            }
+
         }
         $html = preg_replace("/@table/", $cols, $file);
-        $dir  = app_path() . $this->modular . '/view/'.$this->cc_format($this->controller).'/index.html';
+        $dir = app_path() . $this->modular . '/view/' . $this->cc_format($this->controller) . '/index.html';
         $this->fileSave($dir, $html);
     }
 
@@ -43,51 +49,155 @@ class HtmlGenerator
     public function update()
     {
         $HtmlFile = $this->htmlDir . "update.tpl";
-        $file     = @file_get_contents($HtmlFile);
+        $file = @file_get_contents($HtmlFile);
 
 
         $cols = '';
+        $column_comment_str = [];
         foreach ($this->table as $v) {
-            if($v['column_name']=='id')
-            {
-                $cols.=' <input type="hidden" value="{$info.id}"  name="id" lay-verify="required" >';
-            }else{
-                $cols .= '<div class="layui-form-item">
-                            <label class="layui-form-label">'.$v['column_comment'].'</label>
+
+            array_push($column_comment_str, $v['column_comment']);
+            if ($v['column_name'] == 'id') {
+                $cols .= ' <input type="hidden" value="{$info.id}"  name="id" lay-verify="required" >';
+            } else {
+
+                if (strstr($v['column_comment'], '图片')) {
+                    $cols .= '<div class="layui-form-item">
+                              <label class="layui-form-label">' . $v['column_comment'] . '</label>
                                 <div class="layui-input-block">
-                                    <input type="text" value="{$info.'.$v['column_name'].'}" name="'.$v['column_name'].'" lay-verify="required" placeholder="请输入'.$v['column_comment'].'" autocomplete="off" class="layui-input">
+                                       <div class="layui-upload">
+                                        <button type="button" class="layui-btn ueditor" >上传图片</button>
+                                        <div class="layui-upload-list">
+                                            <img class="layui-upload-img" src="{$info.' . $v['column_name'] . '}">
+                                            <p></p>
+                                            <input type="hidden" value="{$info.' . $v['column_name'] . '}" name="' . $v['column_name'] . '" >
+                                        </div>
+                                    </div>           
                                 </div>
-                          </div>'."\n";
+                          </div>' . "\n";
+                } else if (strstr($v['column_comment'], '富文本')) {
+
+                    $cols .= '<div class="layui-form-item">
+                            <label class="layui-form-label">' . $v['column_comment'] . '</label>
+                                <div class="layui-input-block">
+                                <script id="editor" name="' . $v['column_name'] . '" type="text/plain" style="height:400px;">{:htmlspecialchars_decode($info.' . $v['column_name'] . ')}</script>
+                               </div>
+                          </div>' . "\n";
+                } else {
+                    $cols .= '<div class="layui-form-item">
+                            <label class="layui-form-label">' . $v['column_comment'] . '</label>
+                                <div class="layui-input-block">
+                                    <input type="text" value="{$info.' . $v['column_name'] . '}"  name="' . $v['column_name'] . '" lay-verify="required" placeholder="请输入' . $v['column_comment'] . '" autocomplete="off" class="layui-input">
+                                </div>
+                          </div>' . "\n";
+                }
             }
         }
 
 
-        $html = preg_replace("/@form/", $cols, $file);
-        $dir  = app_path() . $this->modular . '/view/'.$this->cc_format($this->controller).'/update.html';
+        //图片展示
+        $img_upload = @file_get_contents($this->htmlDir . "/configure/ordinary.tpl");
+        foreach ($column_comment_str as $v_comment) {
+            if (strstr($v_comment, '图片')) {
+                $img_upload  = @file_get_contents($this->htmlDir . "/configure/upload.tpl");
+                break;
+            }
+
+        }
+        $ueditor = '';
+        foreach ($column_comment_str as $v_comment) {
+            if (strstr($v_comment, '富文本')) {
+                $ueditor =  @file_get_contents($this->htmlDir . "/configure/ueditor.tpl");
+                break;
+            }
+        }
+        $string = $file;
+        $patterns = array();
+        $patterns[0] = '/@form/';
+        $patterns[1] = '/@ueditor/';
+        $patterns[2] = '/@upload/';
+        $replacements = array();
+        $replacements[0] = $cols;
+        $replacements[1] = $ueditor;
+        $replacements[2] = $img_upload;
+        $html = preg_replace($patterns, $replacements, $string);
+        $dir = app_path() . $this->modular . '/view/' . $this->cc_format($this->controller) . '/update.html';
         $this->fileSave($dir, $html);
+
     }
+
     public function save()
     {
         $HtmlFile = $this->htmlDir . "save.tpl";
-        $file     = @file_get_contents($HtmlFile);
-
-
+        $file = @file_get_contents($HtmlFile);
         $cols = '';
+        $column_comment_str = [];
         foreach ($this->table as $v) {
-            if($v['column_name']!='id') {
-                $cols .= '<div class="layui-form-item">
+            if ($v['column_name'] != 'id') {
+                array_push($column_comment_str, $v['column_comment']);
+                if (strstr($v['column_comment'], '图片')) {
+                    $cols .= '<div class="layui-form-item">
+                              <label class="layui-form-label">' . $v['column_comment'] . '</label>
+                                <div class="layui-input-block">
+                                       <div class="layui-upload">
+                                        <button type="button" class="layui-btn ueditor" >上传图片</button>
+                                        <div class="layui-upload-list">
+                                            <img class="layui-upload-img">
+                                            <p></p>
+                                            <input type="hidden" name="' . $v['column_name'] . '" >
+                                        </div>
+                                    </div>           
+                                </div>
+                          </div>' . "\n";
+                } else if (strstr($v['column_comment'], '富文本')) {
+
+                    $cols .= '<div class="layui-form-item">
+                            <label class="layui-form-label">' . $v['column_comment'] . '</label>
+                                <div class="layui-input-block">
+                                <script id="editor" name="' . $v['column_name'] . '" type="text/plain" style="height:400px;"></script>
+                               </div>
+                          </div>' . "\n";
+                } else {
+                    $cols .= '<div class="layui-form-item">
                             <label class="layui-form-label">' . $v['column_comment'] . '</label>
                                 <div class="layui-input-block">
                                     <input type="text" value="" name="' . $v['column_name'] . '" lay-verify="required" placeholder="请输入' . $v['column_comment'] . '" autocomplete="off" class="layui-input">
                                 </div>
                           </div>' . "\n";
+                }
+
             }
         }
 
+        //图片展示
+        $img_upload =  @file_get_contents($this->htmlDir . "/configure/ordinary.tpl");
+        foreach ($column_comment_str as $v_comment) {
+            if (strstr($v_comment, '图片')) {
+                $img_upload = @file_get_contents($this->htmlDir . "/configure/upload.tpl");
+                break;
+            }
 
-        $html = preg_replace("/@form/", $cols, $file);
-        $dir  = app_path() . $this->modular . '/view/'.$this->cc_format($this->controller).'/save.html';
+        }
+        $ueditor = '';
+        foreach ($column_comment_str as $v_comment) {
+            if (strstr($v_comment, '富文本')) {
+                $ueditor =  @file_get_contents($this->htmlDir . "/configure/ueditor.tpl");
+                break;
+            }
+        }
+        $string = $file;
+        $patterns = array();
+        $patterns[0] = '/@form/';
+        $patterns[1] = '/@ueditor/';
+        $patterns[2] = '/@upload/';
+        $replacements = array();
+        $replacements[0] = $cols;
+        $replacements[1] = $ueditor;
+        $replacements[2] = $img_upload;
+        $html = preg_replace($patterns, $replacements, $string);
+        $dir = app_path() . $this->modular . '/view/' . $this->cc_format($this->controller) . '/save.html';
         $this->fileSave($dir, $html);
+
     }
     
     public function cc_format($name)
