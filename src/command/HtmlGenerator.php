@@ -80,7 +80,8 @@ class HtmlGenerator
                     $cols .= '<div class="layui-form-item">
                             <label class="layui-form-label">' . $v['column_comment'] . '</label>
                                 <div class="layui-input-block">
-                                <script id="editor" name="' . $v['column_name'] . '" type="text/plain" style="height:400px;">{:htmlspecialchars_decode($info.' . $v['column_name'] . ')}</script>
+                                '.'<!-- 如果想复制出一个富文本改下id即可-->'.'
+                                <script class="ueditorEach" id="ueditor'.(string)time().(string)rand(1111,9999).'" name="' . $v['column_name'] . '" type="text/plain" style="height:400px;">{:htmlspecialchars_decode($info.' . $v['column_name'] . ')}</script>
                                </div>
                           </div>' . "\n";
                 } else {
@@ -154,7 +155,8 @@ class HtmlGenerator
                     $cols .= '<div class="layui-form-item">
                             <label class="layui-form-label">' . $v['column_comment'] . '</label>
                                 <div class="layui-input-block">
-                                <script id="editor" name="' . $v['column_name'] . '" type="text/plain" style="height:400px;"></script>
+                                '.'<!-- 如果想复制出一个富文本改下id即可-->'.'
+                                <script class="ueditorEach" id="ueditor'.(string)time().(string)rand(1111,9999).'" name="' . $v['column_name'] . '" type="text/plain" style="height:400px;"></script>
                                </div>
                           </div>' . "\n";
                 } else {
