@@ -20,7 +20,7 @@
         <div class="layui-form-item layui-hide">
             <input type="button" lay-submit lay-filter="LAY-user-front-submit" id="LAY-user-front-submit" value="确认">
         </div>
-    <form>
+    </form>
 </div>
 
 <script src="/static/layuiadmin/layui/layui.js"></script>
