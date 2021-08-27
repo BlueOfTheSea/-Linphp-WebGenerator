@@ -29,7 +29,7 @@ class HtmlGenerator
         foreach ($this->table as $v) {
 
             if (strstr($v['column_comment'], '图片')) {
-                $cols .= "{field: '" . $v['column_name'] . "',align: 'center', title: '" . $v['column_comment'] . "',templet:function (val){return '<img src='+val.img+'>'}},\n";
+                $cols .= "{field: '" . $v['column_name'] . "',align: 'center', title: '" . $v['column_comment'] . "',templet:function (val){return '<img src='+val.".$v['column_name']."+'>'}},\n";
             } else if (strstr($v['column_comment'], '富文本')) {
 
             } else {
